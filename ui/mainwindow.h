@@ -23,6 +23,7 @@ namespace Twig
         void Open();
         void OpenRecentFile();
         void OnReloadTriggered();
+        void OnExportTriggered();
 
     private:
         void MakeMenus();

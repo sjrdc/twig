@@ -103,6 +103,12 @@ namespace Twig
         }
 
         fileMenu->addSeparator();
+
+        auto* exportAction = MakeAction(tr("&Export"), this, QKeySequence(Qt::CTRL + Qt::Key_E));
+        connect(exportAction, &QAction::triggered, this, &MainWindow::OnExportTriggered);
+        fileMenu->addAction(exportAction);
+
+        fileMenu->addSeparator();
         auto* quit = MakeAction(tr("&Quit"), this, QKeySequence::Quit);
         connect(quit, &QAction::triggered, this, &QWidget::close);
         fileMenu->addAction(quit);
@@ -244,6 +250,10 @@ namespace Twig
     }
 
     void MainWindow::OnReloadTriggered()
+    {
+    }
+
+    void MainWindow::OnExportTriggered()
     {
     }
 }
