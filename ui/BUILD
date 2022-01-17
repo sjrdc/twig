@@ -10,6 +10,6 @@ qt_cc_library(
     hdrs = [
         "mainwindow.h",
     ],
-    deps = ["@qt//:qt_widgets"],
+    deps = ["@qt//:qt_widgets", "//datamodel:twigdatamodel"],
     visibility = ["//:__pkg__"]
 )

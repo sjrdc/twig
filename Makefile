@@ -1,14 +1,13 @@
 run: twig
-	bazel run :twig --cxxopt="-std=c++20"
+	bazel run :twig --cxxopt="-std=c++17"
 
 .PHONY: all test clean twig
 
-twig:
-	bazel build :twig --cxxopt="-std=c++20"
+twig: test
+	bazel build :twig --cxxopt="-std=c++17"
 
 test:
-	bazel build //test:testplugin --cxxopt="-std=c++20"
-	bazel test //test:testplugin --test_env QT_QPA_PLATFORM=offscreen --cxxopt="-std=c++20"
+	bazel test //... --test_env QT_QPA_PLATFORM=offscreen --cxxopt="-std=c++17"
 
 all: test twig
 	@echo "Success, all tests passed."
