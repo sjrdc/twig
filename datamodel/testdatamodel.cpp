@@ -11,12 +11,12 @@ protected:
     {
     }
 
-    GitGraph g;
+    GitGraph g = GitGraph("main");
 };
 
 TEST_F(GitGraphTest, DefaultContainsNoCommits)
 {
-    EXPECT_EQ(g.CommitCount(), 0u);
+    EXPECT_EQ(g.CommitCount(), 0u);				      
 }
 
 TEST_F(GitGraphTest, CanCommit)
@@ -35,3 +35,25 @@ TEST_F(GitGraphTest, CanTag)
     EXPECT_EQ(g.CommitCount(), 1u);
 }
 
+TEST_F(GitGraphTest, CanBranch)
+{
+    ASSERT_EQ(g.CommitCount(), 0u);
+    g.Branch("piet");
+    EXPECT_EQ(g.CommitCount(), 0u);
+}
+
+TEST_F(GitGraphTest, CannotBranchTwiceWithSameName)
+{
+    ASSERT_EQ(g.CommitCount(), 0u);
+    g.Branch("piet");
+    EXPECT_THROW(g.Branch("piet"), std::runtime_error);
+}
+
+TEST_F(GitGraphTest, CanCheckout)
+{
+    ASSERT_EQ(g.CommitCount(), 0u);
+    EXPECT_THROW(g.Checkout("piet"), std::runtime_error);
+    g.Branch("piet");
+    EXPECT_EQ(g.CommitCount(), 0u);    
+    EXPECT_NO_THROW(g.Checkout("main"));
+}
