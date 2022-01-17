@@ -1,5 +1,6 @@
 #pragma once
 
+#include "settings.h"
 #include <QtWidgets/QMainWindow>
 
 namespace Twig
@@ -36,6 +37,7 @@ namespace Twig
         static void SetClipBoard(const QString&);
 
         QList<QAction*> recentFileActions;
+	Settings* settings;
         static constexpr int numberOfRecentFiles = 10;
     };
 }

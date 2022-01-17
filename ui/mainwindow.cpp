@@ -22,7 +22,8 @@ namespace
 
 namespace Twig
 {
-    MainWindow::MainWindow()
+    MainWindow::MainWindow() :
+	settings(new Settings(this))
     {
         MakeMenus();
         MakeStatusBar();
@@ -179,19 +180,19 @@ namespace Twig
 
     void MainWindow::UpdateRecentFileActions()
     {
-        // auto recentFiles = settings->GetRecentFiles();
-        // const auto numRecentFiles = qMin(recentFiles.size(), numberOfRecentFiles);
-        // for (auto i = 0; i < numRecentFiles; ++i)
-        // {
-        //     const auto text = tr("&%1 %2").arg(i + 1).arg(QFileInfo(recentFiles[i]).fileName());
-        //     recentFileActions[i]->setText(text);
-        //     recentFileActions[i]->setData(recentFiles[i]);
-        //     recentFileActions[i]->setVisible(true);
-        // }
-        // for (auto j = numRecentFiles; j < numberOfRecentFiles; ++j)
-        // {
-        //     recentFileActions[j]->setVisible(false);
-        // }
+        auto recentFiles = settings->GetRecentFiles();
+        const auto numRecentFiles = qMin(recentFiles.size(), numberOfRecentFiles);
+        for (auto i = 0; i < numRecentFiles; ++i)
+        {
+            const auto text = tr("&%1 %2").arg(i + 1).arg(QFileInfo(recentFiles[i]).fileName());
+            recentFileActions[i]->setText(text);
+            recentFileActions[i]->setData(recentFiles[i]);
+            recentFileActions[i]->setVisible(true);
+        }
+        for (auto j = numRecentFiles; j < numberOfRecentFiles; ++j)
+        {
+            recentFileActions[j]->setVisible(false);
+        }
     }
 
     void MainWindow::OpenRecentFile()
@@ -207,15 +208,15 @@ namespace Twig
     {
         setWindowTitle(fileName);
 
-        // auto recentFiles = settings->GetRecentFiles();
-        // recentFiles.removeAll(fileName);
-        // recentFiles.prepend(fileName);
-        // while (recentFiles.size() > numberOfRecentFiles)
-        // {
-        //     recentFiles.removeLast();
-        // }
+        auto recentFiles = settings->GetRecentFiles();
+        recentFiles.removeAll(fileName);
+        recentFiles.prepend(fileName);
+        while (recentFiles.size() > numberOfRecentFiles)
+        {
+            recentFiles.removeLast();
+        }
 
-        // settings->SetRecentFiles(recentFiles);
+        settings->SetRecentFiles(recentFiles);
 
         for (const auto& widget : QApplication::topLevelWidgets())
         {
